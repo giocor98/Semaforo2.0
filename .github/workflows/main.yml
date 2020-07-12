@@ -55,7 +55,7 @@ jobs:
     
     - name: Release Generation
       run: | 
-        mv target/AM44-jar-with-dependencies.jar deliverables/AM44.jar
+        mv target/Semaforo-2.0.jar deliverables/Semaforo2-0.jar
         mkdir apidocs
         mv target/site/apidocs apidocs
         tar cvfz apidocs.tar.gz apidocs
