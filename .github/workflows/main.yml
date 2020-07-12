@@ -68,7 +68,7 @@ jobs:
 
 
     - name: Push Release 
-      uses: s0/git-publish-subdir-action@master
+      uses: s0/git-publish-subdir-action@origin
       env:
         REPO: self
         BRANCH: release
