@@ -65,7 +65,6 @@ jobs:
         mv deliverables release/deliverables
         mv pom.xml release/pom.xml
 
-
     - name: Push Release 
       uses: s0/git-publish-subdir-action@master
       env:
