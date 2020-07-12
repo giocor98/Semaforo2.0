@@ -54,8 +54,7 @@ jobs:
       run: mvn javadoc:javadoc
     
     - name: Release Generation
-      run: | 
-        mv target/Semaforo-2.0.jar deliverables/Semaforo2-0.jar
+      run: |
         mkdir apidocs
         mv target/site/apidocs apidocs
         tar cvfz apidocs.tar.gz apidocs
@@ -71,6 +70,6 @@ jobs:
       uses: s0/git-publish-subdir-action@master
       env:
         REPO: self
-        BRANCH: master
+        BRANCH: release
         FOLDER : release
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
