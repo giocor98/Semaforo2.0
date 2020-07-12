@@ -247,4 +247,13 @@ public class SerialManager {
         if(port==null) throw new PortNotOpenException("SerialManager.addListener : Trying to add a listener to a closed port");
         if(serialPortDataListener!=null) port.addDataListener(serialPortDataListener);
     }
+
+    /**
+     * Method that returns this' <code>SerialPort</code>.
+     *
+     * @return (this' <code>SerialPort</code>).
+     */
+    SerialPort getPort(){
+        return port;
+    }
 }
