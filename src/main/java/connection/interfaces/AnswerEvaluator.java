@@ -17,7 +17,7 @@ public interface AnswerEvaluator {
      * Method called on the arrival of an answer for the evaluation of it.
      *
      * @param answer (the <code>String</code> answer received).
-     * @return       (the next <ccode>MessageStatus</ccode> to which the
+     * @return       (the next <code>MessageStatus</code> to which the
      *               <code>Message</code> should be set to be).
      * @see MessageStatus
      */

@@ -14,7 +14,7 @@ public class DefaultEvaluator implements AnswerEvaluator {
      * <p>Method called on the arrival of an answer for the evaluation of it.</p>
      *
      * @param answer (the <code>String</code> answer received).
-     * @return       (the next <ccode>MessageStatus</ccode> to which the
+     * @return       (the next <code>MessageStatus</code> to which the
      *               <code>Message</code> should be set to be).
      * @see AnswerEvaluator
      * @see AnswerEvaluator#evaluate(String)
