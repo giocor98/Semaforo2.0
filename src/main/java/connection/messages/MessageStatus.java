@@ -3,10 +3,10 @@ package connection.messages;
 /**
  * <p>Enum representing the status of a message.</p>
  * <p>
- * A normal flow of state is: <br/>
- * READY (on the creation of <code>Message</code>) <br/>
- * LOADED (just before the sending of <code>Message</code>) <br/>
- * SENT (after the sending and before the receivement of the response to the <code>Message</code>)<br/>
+ * A normal flow of state is:
+ * READY (on the creation of <code>Message</code>)
+ * LOADED (just before the sending of <code>Message</code>)
+ * SENT (after the sending and before the receivement of the response to the <code>Message</code>)
  * RECEIVED | ACKED | ERROR (after the <code>Message</code> has been sent).
  * </p>
  */
