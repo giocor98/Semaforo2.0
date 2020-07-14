@@ -3,6 +3,7 @@ package connection.serial;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import exception.PortNotFoundException;
 import exception.PortNotOpenException;
 
 /**
@@ -45,6 +46,16 @@ public abstract class SerialBufferedAdapter implements SerialPortDataListener {
      * index pointing to the top of the buff.
      */
     private int index;
+
+    // TODO: 13/07/20 comment it 
+    protected SerialBufferedAdapter(String portName, int baudRate) throws PortNotOpenException, PortNotFoundException {
+        serialManager = new SerialManager(portName, baudRate, this);
+    }
+
+    // TODO: 13/07/20 comment it 
+    protected SerialBufferedAdapter(String portName) throws PortNotOpenException, PortNotFoundException {
+        serialManager = new SerialManager(portName, this);
+    }
 
     /**
      * Method setting the listener only for available bytes.
@@ -112,7 +123,5 @@ public abstract class SerialBufferedAdapter implements SerialPortDataListener {
      *
      * @param message (the received complete message as a <code>String</code>
      */
-    abstract void receivedMessage(String message);
-
-
+    protected abstract void receivedMessage(String message);
 }
