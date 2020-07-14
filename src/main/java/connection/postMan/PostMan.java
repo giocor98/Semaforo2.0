@@ -152,8 +152,6 @@ public class PostMan extends SerialBufferedAdapter {
     /**
      * Method to send the next <code>Message</code> enqueued
      * ont the <code>Queue</code>.
-     *
-     * @throws PortNotOpenException (if message cannot be sent).
      */
     protected void sendNextMessage() {
         if(actualMessage != null)
