@@ -1,4 +1,4 @@
-package connection.messages;
+package src.utils.connection.messages;
 
 /**
  * <p>Enum representing the status of a message.</p>

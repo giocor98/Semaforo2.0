@@ -1,4 +1,4 @@
-package core;
+package src.model;
 
 /**
  * Class facade

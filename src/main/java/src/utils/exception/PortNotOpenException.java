@@ -1,4 +1,4 @@
-package exception;
+package src.utils.exception;
 
 /**
  * Exception thrown when there exists the selected port but cannot be opened

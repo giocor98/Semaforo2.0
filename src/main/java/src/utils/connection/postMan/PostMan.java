@@ -1,12 +1,12 @@
-package connection.postMan;
+package src.utils.connection.postMan;
 
-import connection.interfaces.IncomeObserver;
-import connection.messages.Message;
-import connection.messages.MessageStatus;
-import connection.serial.SerialBufferedAdapter;
-import exception.PortNotFoundException;
-import exception.PortNotOpenException;
-import utils.ThreadPool;
+import src.utils.connection.interfaces.IncomeObserver;
+import src.utils.connection.messages.Message;
+import src.utils.connection.messages.MessageStatus;
+import src.utils.connection.serial.SerialBufferedAdapter;
+import src.utils.exception.PortNotFoundException;
+import src.utils.exception.PortNotOpenException;
+import src.utils.threadPool.ThreadPool;
 
 import java.util.ArrayList;
 import java.util.List;

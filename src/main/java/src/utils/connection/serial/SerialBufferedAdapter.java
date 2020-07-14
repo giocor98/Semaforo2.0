@@ -1,10 +1,10 @@
-package connection.serial;
+package src.utils.connection.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
-import exception.PortNotFoundException;
-import exception.PortNotOpenException;
+import src.utils.exception.PortNotFoundException;
+import src.utils.exception.PortNotOpenException;
 
 /**
  * <p>
@@ -12,7 +12,7 @@ import exception.PortNotOpenException;
  * the <code>SerialPort</code> in an simplified way.
  * </p>
  * <p>
- * It permits to manage the serial connection in a easy way, making it
+ * It permits to manage the serial src.utils.connection in a easy way, making it
  * possible to see the messages as String and abstracting from the actual
  * way the messages are sent and received. A message is received iif it
  * terminates with a '\n' character, and so this class sends a message

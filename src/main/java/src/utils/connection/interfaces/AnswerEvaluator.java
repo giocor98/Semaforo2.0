@@ -1,15 +1,14 @@
-package connection.interfaces;
+package src.utils.connection.interfaces;
 
-import connection.messages.MessageStatus;
-import connection.messages.MessageType;
+import src.utils.connection.messages.MessageStatus;
 
 /**
  * Interface used to implement the decorator pattern to manage the answers
  * from the Arduino and to guide the <code>Message</code> through a consistent
  * consecutio of valid <code>MessageStatus</code>.
  *
- * @see connection.messages.MessageStatus
- * @see connection.messages.Message
+ * @see src.utils.connection.messages.MessageStatus
+ * @see src.utils.connection.messages.Message
  */
 public interface AnswerEvaluator {
 

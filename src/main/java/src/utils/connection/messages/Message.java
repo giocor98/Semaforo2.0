@@ -1,7 +1,7 @@
-package connection.messages;
+package src.utils.connection.messages;
 
-import connection.interfaces.AnswerEvaluator;
-import connection.interfaces.DefaultEvaluator;
+import src.utils.connection.interfaces.AnswerEvaluator;
+import src.utils.connection.interfaces.DefaultEvaluator;
 
 /**
  * Class to represent the <code>Message</code>.
@@ -241,7 +241,7 @@ public class Message {
      * </p>
      * <p>
      * If the <code>this.status</code> is READY, it should throw a null
-     * pointer exception (and also in other cases).
+     * pointer src.utils.exception (and also in other cases).
      * </p>
      *
      * @param answer (the <code>String</code> of the answer received).

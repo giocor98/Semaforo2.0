@@ -1,4 +1,4 @@
-package connection.serial;
+package src.utils.connection.serial;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
-import exception.PortNotFoundException;
-import exception.PortNotOpenException;
+import src.utils.exception.PortNotFoundException;
+import src.utils.exception.PortNotOpenException;
 
 /**
  * <p>Class to manage a Serial port.</p>

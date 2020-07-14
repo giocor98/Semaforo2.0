@@ -1,4 +1,4 @@
-package exception;
+package src.utils.exception;
 
 /**
  * Exception thrown when there isn't available the searched port.

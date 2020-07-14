@@ -1,4 +1,4 @@
-package connection.interfaces;
+package src.utils.connection.interfaces;
 
 /**
  * Interface for all the Class to be notified on the arrival of an incoming <code>Message</code>
@@ -15,7 +15,7 @@ public interface IncomeObserver {
     public void incomeMessage(String message, boolean isAnAnswer);
 
     /**
-     * Method ccalled on an exception of the <code>SerialBufferedAdapter</code>.
+     * Method ccalled on an src.utils.exception of the <code>SerialBufferedAdapter</code>.
      *
      * @param exc (the <code>Exception thrown</code>).
      */

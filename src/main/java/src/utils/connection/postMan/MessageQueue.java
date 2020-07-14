@@ -1,6 +1,6 @@
-package connection.postMan;
+package src.utils.connection.postMan;
 
-import connection.messages.Message;
+import src.utils.connection.messages.Message;
 
 import java.util.NoSuchElementException;
 import java.util.concurrent.ArrayBlockingQueue;

@@ -1,17 +1,17 @@
-package connection;
+package src.utils.connection;
 
-import connection.interfaces.IncomeObserver;
-import connection.messages.Message;
-import connection.postMan.PostMan;
-import connection.serial.SerialManager;
-import exception.PortNotFoundException;
-import exception.PortNotOpenException;
+import src.utils.connection.interfaces.IncomeObserver;
+import src.utils.connection.messages.Message;
+import src.utils.connection.postMan.PostMan;
+import src.utils.connection.serial.SerialManager;
+import src.utils.exception.PortNotFoundException;
+import src.utils.exception.PortNotOpenException;
 
 import java.util.List;
 
 /**
  * <p>
- * Facade class to interface with the connection package.
+ * Facade class to interface with the src.utils.connection package.
  * </p>
  */
 public class Connection {
@@ -31,7 +31,7 @@ public class Connection {
      * @return (List of the name of the available <code>SerialPort</code>).
      * @see SerialManager#availablePorts()
      */
-    static List<String> availablePorts(){
+    public static List<String> availablePorts(){
         return SerialManager.availablePorts();
     }
 

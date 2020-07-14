@@ -1,10 +1,10 @@
-package connection.messages;
+package src.utils.connection.messages;
 
 import static java.lang.String.format;
 
 /**
  * Enumeration containing all the types of message available.
- * It offers the possibility to build the right Message for each
+ * It offers the possibility to builder the right Message for each
  * message Type.
  *
  * @see Message

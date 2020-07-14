@@ -1,6 +1,6 @@
-package connection.interfaces;
+package src.utils.connection.interfaces;
 
-import connection.messages.MessageStatus;
+import src.utils.connection.messages.MessageStatus;
 
 /**
  * The default <code>AnswerEvaluator</code>.
