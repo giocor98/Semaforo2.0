@@ -142,7 +142,7 @@ public class PostMan extends SerialBufferedAdapter {
     /**
      * Method to set <code>actualMessage</code>.
      *
-     * @param message
+     * @param message (the <code>Message</code> to be sent).
      */
     protected void setActualMessage(Message message){
         this.actualMessage=message;
