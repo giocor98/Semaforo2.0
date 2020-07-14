@@ -260,4 +260,8 @@ public class Message {
     public void killing() throws NullPointerException{
         this.getEvaluator().killing();
     }
+
+    public String getPayload() {
+        return payload;
+    }
 }
