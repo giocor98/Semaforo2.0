@@ -13,4 +13,11 @@ public interface IncomeObserver {
      * @param isAnAnswer (true iif the call is due to an answer to a previous message).
      */
     public void incomeMessage(String message, boolean isAnAnswer);
+
+    /**
+     * Method ccalled on an exception of the <code>SerialBufferedAdapter</code>.
+     *
+     * @param exc (the <code>Exception thrown</code>).
+     */
+    public void exceptionThrown(Exception exc);
 }

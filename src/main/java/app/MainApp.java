@@ -1,7 +1,11 @@
+package app;
+
+import connection.Connection;
+
 /**
  * Class to manage the program life
  */
-public class App {
+public class MainApp {
 
     /**
      * main Method to launch the program and to
@@ -15,5 +19,10 @@ public class App {
         //foo instruction
         System.out.println("Hello World");
 
+    }
+
+    public static void end(){
+        Connection.closeAll();
+        System.exit(0);
     }
 }

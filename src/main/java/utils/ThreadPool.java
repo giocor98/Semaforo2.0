@@ -1,5 +1,7 @@
 package utils;
 
+import app.MainApp;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -14,15 +16,26 @@ public class ThreadPool {
     static ExecutorService pool =Executors.newFixedThreadPool(5);
 
     /**
-     * Method to submit a task to the tread pool.
+     * <p>
+     * Method to safeSubmit a task to the tread pool.
+     * </p><p>
+     * If the tasks throw an unchecked exception, it 'll terminate the whole program
+     * after printing the stackTrace.
+     * </p>
      *
      * @param runnable (the task to be executed).
      */
-    public static void submit(Runnable runnable){
-        try {
-            pool.submit(runnable);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+    public static void safeSubmit(Runnable runnable){
+        pool.submit(() -> {
+            try {
+                runnable.run();
+            }catch(Exception e){
+                // TODO: 14/07/20 gestire l'errore 
+                System.err.println("Uncatched Exception:");
+                e.printStackTrace();
+                MainApp.end();
+            }
+        });
+       
     }
 }

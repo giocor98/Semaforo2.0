@@ -51,7 +51,7 @@ public class SerialManager {
      *
      * @return (List of the name of the available <code>SerialPort</code>).
      */
-    static List<String> availablePorts(){
+    public static List<String> availablePorts(){
 
         //retrieving the array of all the available ports
         SerialPort[] sp = SerialPort.getCommPorts();
@@ -69,7 +69,7 @@ public class SerialManager {
      * CLOSING:
      * Method closing all the opened <code>SerialManager</code>.
      */
-    static void closeAll(){
+    public static void closeAll(){
         //Iterate on the array of the ports and close them.
         for (SerialManager sm: portsList) sm.close();
     }
@@ -225,7 +225,7 @@ public class SerialManager {
      * It closes the port and release it.
      * </p>
      */
-    void close(){
+    private void close(){
         //Closes the port and loose its reference.
         port.closePort();
         port = null;
