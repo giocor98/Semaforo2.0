@@ -42,5 +42,39 @@
 
     </dependencies>
 
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>src.app.MainApp</mainClass>
+                            </manifest>
+                        </archive>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                        <finalName>${project.outputName}</finalName>
+                        <appendAssemblyId>true</appendAssemblyId>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <!-- bind to the packaging phase -->
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
 
 </project>

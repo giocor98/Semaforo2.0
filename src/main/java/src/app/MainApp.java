@@ -1,12 +1,17 @@
 package src.app;
 
 import src.utils.connection.Connection;
+import src.utils.exception.NotSuchPropertiesException;
 import src.utils.exception.PortNotFoundException;
 import src.utils.exception.PortNotOpenException;
+import src.utils.exception.PropertyLoadException;
+import src.utils.properties.AppProperty;
+import src.utils.threadPool.FixedSafeThreadPool;
 import src.utils.threadPool.ThreadPool;
 import src.view.View;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +35,15 @@ public class MainApp {
      * </p>
      */
     private View view;
+
+    /**
+     * The thread pool for this execution.
+     */
+    private ThreadPool threadPool;
+
+    public ThreadPool getThreadPool() {
+        return threadPool;
+    }
 
     private enum ViewType{
         CLI {
@@ -63,17 +77,47 @@ public class MainApp {
      * @param args (list of arguments passed to the program).
      */
     public static void main(String[] args) {
-        //arguments parameters
-        ViewType viewType = ViewType.CLI;
+        //initialise the log
+
+        //initialise the configReaders
+        if(!AppProperty.build()){
+            System.err.println("Errore nell'apertura delle properties");
+            end();
+        }
 
         //creating a list of arguments
-        List<String> arguments = Arrays.stream(args).collect(Collectors.toList());
+        List<String> arguments = null;
+        try {
+            arguments = Arrays.asList(AppProperty.getProperty("defaultParam.param").split(" "));
+            Collections.addAll(arguments, args);
+        } catch (NotSuchPropertiesException | PropertyLoadException e) {
+            System.err.println("Errore nell'apertura delle properties");
+            e.printStackTrace();
+            end();
+            return;
+        }
+
+        System.out.println(arguments);
+
+        //creating arguments variales
+        ViewType viewType = null;
 
         //Parsing the arguments
-        if(arguments.contains("--gui"))
-            viewType = ViewType.CLI;
-        if(arguments.contains("--cli"))
-            viewType = ViewType.GUI;
+        for(String arg: arguments){
+            switch (arg){
+                case "--cli":
+                    viewType = ViewType.CLI;
+                    break;
+                case "--gui":
+                    viewType = ViewType.GUI;
+                    break;
+            }
+        }
+
+        if(viewType==null){
+            System.err.println("No viewer selected");
+            return;
+        }
 
         //Creating the MainApp instance.
         builder(viewType.getView());
@@ -120,6 +164,8 @@ public class MainApp {
     protected MainApp(View view, Connection connection){
         this.view = view;
         this.connection = connection;
-        ThreadPool.init();
+        this.threadPool = new FixedSafeThreadPool();
+
+        AppProperty.build();
     }
 }

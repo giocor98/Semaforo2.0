@@ -1,5 +1,6 @@
 package src.utils.connection;
 
+import src.app.MainApp;
 import src.utils.connection.interfaces.IncomeObserver;
 import src.utils.connection.messages.Message;
 import src.utils.connection.postMan.PostMan;
@@ -22,6 +23,13 @@ public class Connection {
      * @see PostMan
      */
     private PostMan postMan;
+
+    /**
+     * Reference to the main application running this.
+     *
+     * @see MainApp
+     */
+    private MainApp app;
 
     /**
      *
@@ -85,10 +93,10 @@ public class Connection {
      *                                 available with such a port name).
      * @throws PortNotOpenException   (iif the selected port exists but cannot
      *                                be accessed).
-     * @see PostMan#PostMan(String)
+     * @see PostMan#PostMan(String, src.utils.threadPool.ThreadPool)
      */
     public Connection(String portName) throws PortNotOpenException, PortNotFoundException {
-        postMan = new PostMan(portName);
+        postMan = new PostMan(portName, app.getThreadPool());
     }
 
     /**

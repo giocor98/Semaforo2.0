@@ -6,6 +6,7 @@ import src.utils.connection.messages.MessageStatus;
 import src.utils.connection.serial.SerialBufferedAdapter;
 import src.utils.exception.PortNotFoundException;
 import src.utils.exception.PortNotOpenException;
+import src.utils.threadPool.FixedSafeThreadPool;
 import src.utils.threadPool.ThreadPool;
 
 import java.util.ArrayList;
@@ -44,14 +45,18 @@ public class PostMan extends SerialBufferedAdapter {
 
     private final Object toObject = new Object();
 
+    private ThreadPool threadPool;
+
     // TODO: 13/07/20 comment it
-    protected PostMan(String portName, int baudRate) throws PortNotOpenException, PortNotFoundException {
+    protected PostMan(String portName, int baudRate, ThreadPool threadPool) throws PortNotOpenException, PortNotFoundException {
         super(portName, baudRate);
+        this.threadPool = threadPool;
     }
 
     // TODO: 13/07/20 comment it
-    public PostMan(String portName) throws PortNotFoundException, PortNotOpenException {
+    public PostMan(String portName, ThreadPool threadPool) throws PortNotFoundException, PortNotOpenException {
         super (portName);
+        this.threadPool = threadPool;
     }
 
     /**
@@ -82,7 +87,7 @@ public class PostMan extends SerialBufferedAdapter {
      */
     public void addMessage(Message message){
         queue.add(message);
-        // TODO: 13/07/20 call a thread to execute it. 
+        callAThread();
     }
 
     /**
@@ -237,14 +242,14 @@ public class PostMan extends SerialBufferedAdapter {
     }
 
     /**
-     * Method to call a thread (from the <code>ThreadPool</code>) to
+     * Method to call a thread (from the <code>FixedSafeThreadPool</code>) to
      * send the next <code>Message</code> that has to be sent.
      */
     private void callAThread(){
         synchronized (lock){
             if(actualMessage != null)
                 return;
-            ThreadPool.safeSubmit(this::sendNextMessage);
+            threadPool.submit(this::sendNextMessage);
         }
     }
 
@@ -261,6 +266,10 @@ public class PostMan extends SerialBufferedAdapter {
      */
     @Override
     protected void receivedMessage(String message) {
-        ThreadPool.safeSubmit(() -> notifyAnswer(message));
+        threadPool.submit(() -> notifyAnswer(message));
+    }
+
+    public void setThreadPool(ThreadPool threadPool) {
+        this.threadPool = threadPool;
     }
 }
