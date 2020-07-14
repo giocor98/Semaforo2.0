@@ -1,7 +1,7 @@
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Class to test the App class
+ * Class to test the app.MainApp class
  */
 class AppTest {
 
