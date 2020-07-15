@@ -32,7 +32,8 @@
         </RollingFile>
 
         <RollingFile name="PropertiesFile" fileName="${propertyfilename}.log"
-                     filePattern="${propertyfilename}-%i.log.gz">
+                     filePattern="${propertyfilename}ctually true
+                     -%i.log.gz">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} #%M \t->\t %msg%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
@@ -45,8 +46,9 @@
         </File>-->
     </Appenders>
     <Loggers>
-        <Logger name="properties" level="TRACE">
+        <Logger name="properties" level="TRACE" additivity="false">
             <AppenderRef ref="PropertiesFile"/>
+            <AppenderRef ref="MainFile" level = "WARN"/>
         </Logger>
         <Root level="warn">
             <AppenderRef ref="MainFile"/>
