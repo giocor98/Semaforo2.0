@@ -1,5 +1,7 @@
 package src.utils.properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import src.utils.exception.NotSuchPropertiesException;
 import src.utils.exception.PropertyLoadException;
 
@@ -11,6 +13,8 @@ import java.util.*;
  * Class SINGLETON managing the configuration files.
  */
 public class AppProperty {
+
+    private static final Logger logger = LogManager.getLogger("properties");
 
     /**
      * The singleton instance.
@@ -37,22 +41,21 @@ public class AppProperty {
      */
     public static boolean build(){
         if (actual != null){
+            logger.info("actual is already set.");
             return true;
         }
 
         try {
             new AppProperty();
         } catch (IOException e) {
+            logger.error("Cannot load the AppProperty.");
             e.printStackTrace();
             return false;
         }
-
-
-
-        System.out.println("Actual version: " + actual.appProperties.getProperty("app.version"));
-        System.out.println("Actual error: " + actual.appProperties.getProperty("error"));
+        logger.trace("AppProperty properly read.");
 
         if(!buildPropertiesMap()){
+            logger.fatal("Wrongly configured Properties into the JAR.");
             actual = null;
             return false;
         }
@@ -95,10 +98,11 @@ public class AppProperty {
         actual.propertiesMap.put("app", actual.appProperties);
 
         for(String property: actual.propertiesList){
-            System.out.println(property);
             try (InputStream inputStream = AppProperty.class.getClassLoader().getResourceAsStream(actual.appProperties.getProperty("app.Properties." + property + ".from"))){
                 actual.propertiesMap.put(property, null);
+                logger.debug(property + ":\tWell configured.");
             } catch (IOException e) {
+                logger.error(property + ":\tWrongly configured.");
                 e.printStackTrace();
                 return false;
             }
@@ -121,7 +125,6 @@ public class AppProperty {
                 System.out.println("Unable to find the file: " + fileName);
                 return null;
             }
-            System.out.println(input);
             ret.load(input);
         }catch (IOException e){
             e.printStackTrace();

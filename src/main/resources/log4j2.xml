@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Properties>
+        <Property name="mainfilename">.log/main.log</Property>
+        <Property name="propertyfilename">.log/properties.log</Property>
+        <Property name="messagesfilename">.log/messages.log</Property>
+    </Properties>
+
+    <Appenders>
+        <!--<Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>-->
+        <RollingFile name="MainFile" fileName="${mainfilename}"
+                     filePattern=".log/main-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} %C{10}#%M \t->\t %msg%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+
+        <RollingFile name="MessageFile" fileName="${messagesfilename}"
+                     filePattern=".log/messages-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} #%M \t->\t %msg%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="20"/>
+        </RollingFile>
+
+        <RollingFile name="PropertiesFile" fileName="${propertyfilename}"
+                     filePattern=".log/properties-%i.log.gz">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} #%M \t->\t %msg%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+        <!--<File name="PropertiesFile" fileName="${propertyfilename}">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n\t\t%C{10}.%M %n"/>
+        </File>-->
+    </Appenders>
+    <Loggers>
+        <Logger name="properties" level="TRACE">
+            <AppenderRef ref="PropertiesFile"/>
+        </Logger>
+        <Root level="warn">
+            <AppenderRef ref="MainFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
