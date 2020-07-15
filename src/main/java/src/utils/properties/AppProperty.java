@@ -100,7 +100,7 @@ public class AppProperty {
         for(String property: actual.propertiesList){
             try (InputStream inputStream = AppProperty.class.getClassLoader().getResourceAsStream(actual.appProperties.getProperty("app.Properties." + property + ".from"))){
                 actual.propertiesMap.put(property, null);
-                logger.debug(property + ":\tWell configured.");
+                logger.trace(property + ":\tWell configured.");
             } catch (IOException e) {
                 logger.error(property + ":\tWrongly configured.");
                 e.printStackTrace();
