@@ -2,6 +2,7 @@ package src.utils.properties;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import src.utils.exception.NotSuchPropertyException;
 import src.utils.exception.PropertyLoadException;
 
 import java.io.IOException;
@@ -9,7 +10,9 @@ import java.io.InputStream;
 import java.util.*;
 
 /**
+ * <p>
  * Class to represent a <code>Properties</code>.
+ * </p>
  */
 public class MyProperty {
 
@@ -61,6 +64,12 @@ public class MyProperty {
      */
     private Properties properties;
 
+    /**
+     * <p>
+     * <code>List</code> of all the <code>MyProperty</code> that
+     * are referenced by this.
+     * </p>
+     */
     private List<String> ref;
 
     /**
@@ -89,6 +98,7 @@ public class MyProperty {
                 logger.error("Cannot create " + name + " MyProperty.");
                 return null;
             }
+            logger.trace("Built MyProperty: " + name);
             synchronized (instancesMap) {
                 instancesMap.put(name, ret);
             }
@@ -125,6 +135,7 @@ public class MyProperty {
      * @throws PropertyLoadException
      */
     private void load() throws PropertyLoadException {
+        logger.trace("Loading: " + this.name);
         //Loading properties
 
         // TODO: 15/07/20 check also other fileName 
@@ -143,35 +154,75 @@ public class MyProperty {
             retString = "";
         ref.addAll(Arrays.asList(retString.split(" ")));
         this.buildReferencies(false);
+        logger.trace("Loaded: " + this.name);
     }
 
-    // TODO: 15/07/20 sistemalo 
+    /**
+     * <p>
+     * Method to be called for starting the <code>MyProperty</code>,
+     * to load the App <code>MyProperty</code> and load all the other
+     * needed <code>MyProperty</code>.
+     * </p>
+     *
+     * @return (the <code>MyProperty</code> of the App Property, or
+     *         null if an error occurs).
+     */
     public static MyProperty init(){
         MyProperty app;
+
+        logger.trace("Initialisation");
+
         try {
             app = new MyProperty("App", "config/AppConfig.properties", null, null);
         } catch (IOException e) {
+            logger.fatal("Cannot open the App property");
             return null;
         }
 
         try {
             app.load();
         } catch (PropertyLoadException e) {
+            logger.fatal("Cannot load the App property");
             return null;
         }
         
         return app;
     }
 
+    /**
+     * <p>
+     * Method to retrieve the <code>MyProperty</code> with given
+     * name if reachable from this.
+     * </p><p>
+     * If the searched <code>MyProperty</code>'s not reachable or
+     * doesn't exists, then it'll return null.
+     * </p>
+     *
+     * @param myPropertyName (the searched <code>MyProperty</code>'s name).
+     * @return (the searched <code>MyProperty</code> or null).
+     */
     private MyProperty retrieveProperties(String myPropertyName){
-        if(!this.ref.contains(myPropertyName))
+        if(!this.ref.contains(myPropertyName)){
+            logger.debug("MyProperty " + this.name + " doesn't have access to " + myPropertyName);
             return null;
+        }
         synchronized (instancesMap){
+            logger.debug("Retrieving " + myPropertyName + " from " + this.name);
             return instancesMap.get(myPropertyName);
         }
     }
 
-    public String getProperty(String key) throws PropertyLoadException {
+    /**
+     * <p>
+     * Method to retrieve from this the <code>Property</code>
+     * searched
+     * </p>
+     *
+     * @param key (the <code>Property</code> to retrieve name).
+     * @return (the <code>Property</code> searched).
+     * @throws PropertyLoadException (if this cannot be loaded).
+     */
+    public String getProperty(String key) throws PropertyLoadException, NotSuchPropertyException {
         String ret;
         if(this.properties == null)
             this.load();
@@ -186,15 +237,28 @@ public class MyProperty {
                 return this.getProperty(String.join(".", keyList.subList(1, keyList.size())));
             }else{
                 try{
+                    logger.trace(this.name + "inoltring request to " + keyList.get(0));
+                    logger.trace("asked: " + key);
+                    logger.trace("asking " + String.join(".", keyList.subList(1, keyList.size())));
                     return this.retrieveProperties(keyList.get(0)).getProperty(String.join(".", keyList.subList(1, keyList.size())));
                 }catch (NullPointerException e){
-                    return null;
+                    logger.debug(this.name + " has not found anything with " + key);
+                    throw new NotSuchPropertyException();
                 }
             }
         }
         return ret;
     }
 
+    /**
+     * <p>
+     * Method to build the <code>ref</code> of this.
+     * </p><p>
+     * If load is true than it'll load the <code>ref</code>.
+     * </p>
+     *
+     * @param load
+     */
     private void buildReferencies(boolean load){
 
         for(String loadee: this.ref){
@@ -233,7 +297,17 @@ public class MyProperty {
             }
         }
     }
-    
+
+    /**
+     * <p>
+     * Method to load the <code>Properties</code> from the file
+     * passed.
+     * </p>
+     *
+     * @param fileName (the name of the file to be read).
+     * @return (the newly read <code>Properties</code>).
+     * @throws PropertyLoadException (if the file doesn't exists).
+     */
     private static Properties loadFromFileProperties(String fileName) throws PropertyLoadException {
         Properties ret = new Properties();
         InputStream input = MyProperty.class.getClassLoader().getResourceAsStream(fileName);

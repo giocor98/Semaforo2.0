@@ -2,6 +2,7 @@ package src.app;
 
 import exceptions.TestException;
 import org.junit.jupiter.api.Test;
+import src.utils.exception.NotSuchPropertyException;
 import src.utils.exception.PropertyLoadException;
 import src.utils.properties.MyProperty;
 
@@ -50,7 +51,7 @@ class MainAppTest {
         String[] defaultParams = new String[0];
         try {
             defaultParams = appProperty.getProperty("DefaultParam.param").split(" ");
-        } catch (PropertyLoadException e) {
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
             e.printStackTrace();
             fail();
         }
@@ -92,7 +93,7 @@ class MainAppTest {
         //Checks that the default value of "defaultParam.viewer" is one of the ones valid
         try {
             assertTrue(Arrays.asList(validView).contains(appProperty.getProperty("DefaultParam.viewer")));
-        } catch (PropertyLoadException e) {
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
             System.err.println("Error retrieving defaultParam.viewer");
             e.printStackTrace();
             fail();
@@ -101,7 +102,7 @@ class MainAppTest {
         //Checks that the default value of "defaultParam.lang" exists
         try {
             appProperty.getProperty("DefaultParam.lang");
-        } catch (PropertyLoadException e) {
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
             System.err.println("Error retrieving defaultParam.lang");
             e.printStackTrace();
             fail();

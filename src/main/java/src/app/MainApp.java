@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import src.utils.connection.Connection;
+import src.utils.exception.NotSuchPropertyException;
 import src.utils.exception.PortNotFoundException;
 import src.utils.exception.PortNotOpenException;
 import src.utils.exception.PropertyLoadException;
@@ -132,7 +133,7 @@ public class MainApp {
         try {
             arguments = new ArrayList<>(Arrays.asList(appProperty.getProperty("DefaultParam.param").split(" ")));
             Collections.addAll(arguments, args);
-        } catch (PropertyLoadException e) {
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
             logger.fatal(e);
             logger.fatal("Error loading defaultParam.param.");
             end();
@@ -231,7 +232,7 @@ public class MainApp {
             logger.debug("viewer not loaded with parameters: going to retrieve it");
             try{
                 viewType = appProperty.getProperty("DefaultParam.viewer");
-            } catch (NullPointerException e) {
+            } catch (NotSuchPropertyException e) {
                 logger.fatal("Property \"defaultParam.viewer\" not found");
                 logger.fatal(e);
                 end();
@@ -269,7 +270,7 @@ public class MainApp {
                 lang = appProperty.getProperty("DefaultParam.lang");
                 if(lang == null)
                     throw new NullPointerException();
-            } catch (PropertyLoadException | NullPointerException e) {
+            } catch (PropertyLoadException | NotSuchPropertyException e) {
                 logger.fatal(e);
                 logger.fatal("Cannot load \"defaultParam.lang\".");
                 end();
