@@ -2,9 +2,8 @@ package src.app;
 
 import exceptions.TestException;
 import org.junit.jupiter.api.Test;
-import src.utils.exception.NotSuchPropertiesException;
 import src.utils.exception.PropertyLoadException;
-import src.utils.properties.AppProperty;
+import src.utils.properties.MyProperty;
 
 import java.util.Arrays;
 
@@ -44,13 +43,14 @@ class MainAppTest {
         };
 
         //Test that the AppProperty can be built
-        assertTrue(AppProperty.build());
+        MyProperty appProperty = MyProperty.init();
+        assertNotNull(appProperty);
 
         //Check that all the default parameters are valid
         String[] defaultParams = new String[0];
         try {
-            defaultParams = AppProperty.getProperty("defaultParam.param").split(" ");
-        } catch (NotSuchPropertiesException | PropertyLoadException e) {
+            defaultParams = appProperty.getProperty("DefaultParam.param").split(" ");
+        } catch (PropertyLoadException e) {
             e.printStackTrace();
             fail();
         }
@@ -91,8 +91,8 @@ class MainAppTest {
 
         //Checks that the default value of "defaultParam.viewer" is one of the ones valid
         try {
-            assertTrue(Arrays.asList(validView).contains(AppProperty.getProperty("defaultParam.viewer")));
-        } catch (NotSuchPropertiesException | PropertyLoadException e) {
+            assertTrue(Arrays.asList(validView).contains(appProperty.getProperty("DefaultParam.viewer")));
+        } catch (PropertyLoadException e) {
             System.err.println("Error retrieving defaultParam.viewer");
             e.printStackTrace();
             fail();
@@ -100,8 +100,8 @@ class MainAppTest {
 
         //Checks that the default value of "defaultParam.lang" exists
         try {
-            AppProperty.getProperty("defaultParam.lang");
-        } catch (NotSuchPropertiesException | PropertyLoadException e) {
+            appProperty.getProperty("DefaultParam.lang");
+        } catch (PropertyLoadException e) {
             System.err.println("Error retrieving defaultParam.lang");
             e.printStackTrace();
             fail();

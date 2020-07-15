@@ -6,11 +6,10 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.LoggerConfig;
 import src.utils.connection.Connection;
-import src.utils.exception.NotSuchPropertiesException;
 import src.utils.exception.PortNotFoundException;
 import src.utils.exception.PortNotOpenException;
 import src.utils.exception.PropertyLoadException;
-import src.utils.properties.AppProperty;
+import src.utils.properties.MyProperty;
 import src.utils.threadPool.FixedSafeThreadPool;
 import src.utils.threadPool.ThreadPool;
 import src.view.View;
@@ -90,6 +89,9 @@ public class MainApp {
         return threadPool;
     }
 
+    // TODO: 15/07/20 comment it
+    private MyProperty appProperty;
+
     /**
      * <p>
      * Main method to launch the program.
@@ -114,7 +116,8 @@ public class MainApp {
         logger.trace("App started");
 
         //##build AppProperty
-        if(!AppProperty.build()){
+        MyProperty appProperty = MyProperty.init();
+        if(appProperty == null){
             logger.fatal("Error building AppProperty");
             end();
             return;
@@ -127,9 +130,9 @@ public class MainApp {
         //####Creating Argument List
         //##concatenating the list of passed arguments with the default list of arguments (retrieved from properties).
         try {
-            arguments = new ArrayList<>(Arrays.asList(AppProperty.getProperty("defaultParam.param").split(" ")));
+            arguments = new ArrayList<>(Arrays.asList(appProperty.getProperty("DefaultParam.param").split(" ")));
             Collections.addAll(arguments, args);
-        } catch (NotSuchPropertiesException | PropertyLoadException e) {
+        } catch (PropertyLoadException e) {
             logger.fatal(e);
             logger.fatal("Error loading defaultParam.param.");
             end();
@@ -227,8 +230,8 @@ public class MainApp {
         if(viewType==null){
             logger.debug("viewer not loaded with parameters: going to retrieve it");
             try{
-                viewType = AppProperty.getProperty("defaultParam.viewer");
-            } catch (NotSuchPropertiesException | NullPointerException e) {
+                viewType = appProperty.getProperty("DefaultParam.viewer");
+            } catch (NullPointerException e) {
                 logger.fatal("Property \"defaultParam.viewer\" not found");
                 logger.fatal(e);
                 end();
@@ -263,10 +266,10 @@ public class MainApp {
         //#setting lang if not already set with arguments
         if(lang == null){
             try {
-                lang = AppProperty.getProperty("defaultParam.lang");
+                lang = appProperty.getProperty("DefaultParam.lang");
                 if(lang == null)
                     throw new NullPointerException();
-            } catch (NotSuchPropertiesException | PropertyLoadException | NullPointerException e) {
+            } catch (PropertyLoadException | NullPointerException e) {
                 logger.fatal(e);
                 logger.fatal("Cannot load \"defaultParam.lang\".");
                 end();
@@ -289,7 +292,7 @@ public class MainApp {
         System.out.println(arguments.toString());
 
         //######BUILDING THE MAIN APP
-        builder(view, currentLocale);
+        builder(view, currentLocale, appProperty);
 
         //######EXECUTING MAIN APP
 
@@ -323,7 +326,7 @@ public class MainApp {
         endingCall = runnable;
     }
 
-    private static MainApp builder(View view, Locale currentLocale){
+    private static MainApp builder(View view, Locale currentLocale, MyProperty appProperty){
         Connection connection;
 
         String port;
@@ -344,15 +347,15 @@ public class MainApp {
             }
         }
 
-        return new MainApp(view, connection, currentLocale);
+        return new MainApp(view, connection, currentLocale, appProperty);
     }
 
-    protected MainApp(View view, Connection connection, Locale currentLocale){
+    protected MainApp(View view, Connection connection, Locale currentLocale, MyProperty appProperty){
         this.view = view;
         this.connection = connection;
         this.currentLocale = currentLocale;
         this.threadPool = new FixedSafeThreadPool();
 
-        AppProperty.build();
+        this.appProperty = appProperty;
     }
 }
