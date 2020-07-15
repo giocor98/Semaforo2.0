@@ -115,13 +115,13 @@ class MainAppTest {
 
 
         //Asserts main will not work if filled with a random parameter for log.
-        /*boolean excepted = false;
+        boolean excepted = false;
         String[] x = {"--view:foo"};
         try{
             MainApp.main(x);
         }catch (TestException e){
             excepted = true;
         }
-        assertTrue(excepted);*/
+        assertTrue(excepted);
     }
 }

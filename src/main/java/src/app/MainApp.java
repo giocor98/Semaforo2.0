@@ -159,7 +159,7 @@ public class MainApp {
 
                     break;
                 default:
-                    String[] splitted = arg.replace(";", " ").split(" ");
+                    String[] splitted = arg.replace(":", " ").split(" ");
                     switch (splitted[0]){
                         case "--lang":
                             //#setting the language
