@@ -17,10 +17,7 @@ import src.view.View;
 import src.view.cli.CLI;
 import src.view.gui.GUI;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * Class to manage the program life
@@ -68,6 +65,17 @@ public class MainApp {
      * <p><a href="https://logging.apache.org/log4j/2.x/">log4j2 ref</a></p>
      */
     private static final Logger logger = LogManager.getLogger("mainLogger");
+
+    /**
+     * <p>
+     * <code>Runnable</code> called on the <code>{@link #end() end()}</code> call.
+     * </p>
+     * @see #end()
+     */
+    private static Runnable endingCall = ()->{
+        Connection.closeAll();
+        System.exit(0);
+    };
 
     /**
      * <p>
@@ -119,7 +127,7 @@ public class MainApp {
         //####Creating Argument List
         //##concatenating the list of passed arguments with the default list of arguments (retrieved from properties).
         try {
-            arguments = Arrays.asList(AppProperty.getProperty("defaultParam.param").split(" "));
+            arguments = new ArrayList<>(Arrays.asList(AppProperty.getProperty("defaultParam.param").split(" ")));
             Collections.addAll(arguments, args);
         } catch (NotSuchPropertiesException | PropertyLoadException e) {
             logger.fatal(e);
@@ -127,8 +135,6 @@ public class MainApp {
             end();
             return;
         }
-
-        logger.trace(arguments);
 
         //####Reading Argument List
         //##creating arguments variales
@@ -162,6 +168,10 @@ public class MainApp {
                         case "--log":
                             //#setting the log level to be set
                             loggerLevel = splitted[1].toLowerCase();
+                            break;
+                        case "--view":
+                            viewType = splitted[1];
+                            break;
                         default:
                             logger.warn("Wrong argument found: " + arg);
                     }
@@ -275,6 +285,9 @@ public class MainApp {
             logger.debug("setting currentLocale with lang: " + lang + " to: " + currentLocale.getDisplayName());
         }
 
+        logger.trace(arguments);
+        System.out.println(arguments.toString());
+
         //######BUILDING THE MAIN APP
         builder(view, currentLocale);
 
@@ -289,11 +302,25 @@ public class MainApp {
     }
 
     /**
-     * Method to be called to close the program correctly.
+     * <p>
+ *     Method called to close the program. It executes the <code>endingCall</code>.
+     * </p>
      */
     public static void end(){
-        Connection.closeAll();
-        System.exit(0);
+        endingCall.run();
+    }
+
+    /**
+     * <p>
+     * Method to set the <code>endingCall</code>.
+     * </p>
+     *
+     * @param runnable (the new <code>endingCall</code>).
+     * @see #end()
+     * @see #endingCall
+     */
+    public static void setEndingCall(Runnable runnable){
+        endingCall = runnable;
     }
 
     private static MainApp builder(View view, Locale currentLocale){
