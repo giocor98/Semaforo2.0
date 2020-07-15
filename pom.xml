@@ -67,10 +67,10 @@
                         <filesets>
                             <fileset>
                                 <directory>
-
+                                    .log
                                 </directory>
                                 <includes>
-                                    <include>.log/*</include>
+                                    <include>*</include>
                                 </includes>
                                 <followSymlinks>false</followSymlinks>
                             </fileset>

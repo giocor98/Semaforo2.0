@@ -2,17 +2,17 @@
 <Configuration status="WARN">
 
     <Properties>
-        <Property name="mainfilename">.log/main.log</Property>
-        <Property name="propertyfilename">.log/properties.log</Property>
-        <Property name="messagesfilename">.log/messages.log</Property>
+        <Property name="mainfilename">.log/main/main</Property>
+        <Property name="propertyfilename">.log/properties/properties</Property>
+        <Property name="messagesfilename">.log/messages/messages</Property>
     </Properties>
 
     <Appenders>
         <!--<Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>-->
-        <RollingFile name="MainFile" fileName="${mainfilename}"
-                     filePattern=".log/main-%i.log.gz">
+        <RollingFile name="MainFile" fileName="${mainfilename}.log"
+                     filePattern="${mainfilename}-%i.log.gz">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} %C{10}#%M \t->\t %msg%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
@@ -21,8 +21,8 @@
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
 
-        <RollingFile name="MessageFile" fileName="${messagesfilename}"
-                     filePattern=".log/messages-%i.log.gz">
+        <RollingFile name="MessageFile" fileName="${messagesfilename}.log"
+                     filePattern="${messagesfilename}-%i.log.gz">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} #%M \t->\t %msg%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>
@@ -31,8 +31,8 @@
             <DefaultRolloverStrategy max="20"/>
         </RollingFile>
 
-        <RollingFile name="PropertiesFile" fileName="${propertyfilename}"
-                     filePattern=".log/properties-%i.log.gz">
+        <RollingFile name="PropertiesFile" fileName="${propertyfilename}.log"
+                     filePattern="${propertyfilename}-%i.log.gz">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} #%M \t->\t %msg%n"/>
             <Policies>
                 <OnStartupTriggeringPolicy/>

@@ -47,7 +47,7 @@ public class MainApp {
      */
     private ThreadPool threadPool;
 
-    private static final Logger logger = LogManager.getLogger(MainApp.class);
+    private static final Logger logger = LogManager.getLogger("mainLogger");
 
     public ThreadPool getThreadPool() {
         return threadPool;
