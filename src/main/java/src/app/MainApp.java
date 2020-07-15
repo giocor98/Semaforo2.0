@@ -1,5 +1,12 @@
 package src.app;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import src.utils.connection.Connection;
 import src.utils.exception.NotSuchPropertiesException;
 import src.utils.exception.PortNotFoundException;
@@ -13,7 +20,6 @@ import src.view.View;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Class to manage the program life
@@ -40,6 +46,8 @@ public class MainApp {
      * The thread pool for this execution.
      */
     private ThreadPool threadPool;
+
+    private static final Logger logger = LogManager.getLogger("mainLogger");
 
     public ThreadPool getThreadPool() {
         return threadPool;
@@ -78,6 +86,8 @@ public class MainApp {
      */
     public static void main(String[] args) {
         //initialise the log
+        logger.trace("App started");
+
 
         //initialise the configReaders
         if(!AppProperty.build()){
@@ -110,6 +120,16 @@ public class MainApp {
                     break;
                 case "--gui":
                     viewType = ViewType.GUI;
+                    break;
+                case "--debug":
+                    LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+                    System.out.println(ctx.getRootLogger().getLevel());
+                    LoggerConfig config = ctx.getConfiguration().getRootLogger();
+                    config.setLevel(Level.TRACE);
+                    ctx.updateLoggers();  // This causes all Loggers to refetch information from their LoggerConfig.
+                    System.out.println(ctx.getRootLogger().getLevel());
+
+                    logger.trace("Logger set to debug.");
                     break;
             }
         }
