@@ -272,7 +272,7 @@ public class MainApp {
                     throw new NullPointerException();
             } catch (PropertyLoadException | NotSuchPropertyException e) {
                 logger.fatal(e);
-                logger.fatal("Cannot load \"defaultParam.lang\".");
+                logger.fatal("Cannot load \"DefaultParam.lang\".");
                 end();
                 return;
             }
@@ -298,7 +298,13 @@ public class MainApp {
         //######EXECUTING MAIN APP
 
         //foo instruction
-        System.out.println("Hello World!");
+        try {
+            System.out.println("Version: " +
+                    appProperty.getProperty("App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.version")
+                    );
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
+            e.printStackTrace();
+        }
 
         //######FINISHING
         end();

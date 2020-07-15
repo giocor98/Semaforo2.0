@@ -237,9 +237,7 @@ public class MyProperty {
                 return this.getProperty(String.join(".", keyList.subList(1, keyList.size())));
             }else{
                 try{
-                    logger.trace(this.name + "inoltring request to " + keyList.get(0));
-                    logger.trace("asked: " + key);
-                    logger.trace("asking " + String.join(".", keyList.subList(1, keyList.size())));
+                    logger.trace(this.name + " forwarding request to " + keyList.get(0) + " : " + key);
                     return this.retrieveProperties(keyList.get(0)).getProperty(String.join(".", keyList.subList(1, keyList.size())));
                 }catch (NullPointerException e){
                     logger.debug(this.name + " has not found anything with " + key);
