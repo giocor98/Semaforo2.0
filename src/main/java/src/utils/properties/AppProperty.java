@@ -2,7 +2,7 @@
 //
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
-//import src.utils.exception.NotSuchPropertiesException;
+//import src.utils.exception.NotSuchPropertyException;
 //import src.utils.exception.PropertyLoadException;
 //
 //import java.io.IOException;
@@ -76,13 +76,13 @@
 //        return appProperty;
 //    }
 //
-//    public String getProperty(String propertyName) throws NotSuchPropertiesException, PropertyLoadException {
+//    public String getProperty(String propertyName) throws NotSuchPropertyException, PropertyLoadException {
 //
 //        String propertiesName = propertyName.replace('.', ' ').split(" ")[0];
 //        AppProperty properties;
 //
 //        if(!this.propertiesList.contains(propertiesName))
-//            throw new NotSuchPropertiesException();
+//            throw new NotSuchPropertyException();
 //
 //        properties = this.propertiesMap.get(propertiesName);
 //        if(properties == null){
