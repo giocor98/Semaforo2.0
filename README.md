@@ -8,8 +8,8 @@ Program to run a Semaphore to manage mini 4wd races.
 | Initialisation         | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
 | - configuration files  | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
 | - parameter reading    | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
-| - select port          | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
-| -- select port GUI     | [![RED](https://placehold.it/15/f03c15/f03c15)](#)   |
+| - select port          | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
+| -- select port GUI     | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | -- select port CLI     | [![GREEN](https://placehold.it/15/44bb44/44bb44)](#) |
 | - language selection   | [![YELLOW](https://placehold.it/15/ffdd00/ffdd00)](#)|
 | -- bundle out resources| [![RED](https://placehold.it/15/f03c15/f03c15)](#)   |
