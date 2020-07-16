@@ -145,6 +145,7 @@ public class MainApp {
         String viewType = null;
         String lang = null;
         String loggerLevel = null;
+        String defaultPort = null;
 
         //##Parsing the arguments
         for(String arg: arguments){
@@ -175,6 +176,9 @@ public class MainApp {
                             break;
                         case "--view":
                             viewType = splitted[1];
+                            break;
+                        case "--port":
+                            defaultPort = splitted[1];
                             break;
                         default:
                             logger.warn("Wrong argument found: " + arg);
@@ -289,18 +293,28 @@ public class MainApp {
             logger.debug("setting currentLocale with lang: " + lang + " to: " + currentLocale.getDisplayName());
         }
 
-        logger.trace(arguments);
-        System.out.println(arguments.toString());
+        //#setting defaultPort
+        if(defaultPort == null){
+            try {
+                defaultPort = appProperty.getProperty("DefaultParam.port");
+            } catch (PropertyLoadException | NotSuchPropertyException ignore) {
+            }
+            if("".equals(defaultPort)){
+                defaultPort = null;
+            }
+        }
+
+        logger.trace("Argument parsed: " + arguments.toString());
 
         //######BUILDING THE MAIN APP
-        builder(view, currentLocale, appProperty);
+        builder(view, currentLocale, appProperty, defaultPort);
 
         //######EXECUTING MAIN APP
 
         //foo instruction
         try {
             System.out.println("Version: " +
-                    appProperty.getProperty("App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.DefaultParam.App.version")
+                    appProperty.getProperty("App.version")
                     );
         } catch (PropertyLoadException | NotSuchPropertyException e) {
             e.printStackTrace();
@@ -333,13 +347,20 @@ public class MainApp {
         endingCall = runnable;
     }
 
-    private static MainApp builder(View view, Locale currentLocale, MyProperty appProperty){
+    private static MainApp builder(View view, Locale currentLocale, MyProperty appProperty, String defaultPort){
         Connection connection;
 
         String port;
 
+        //Setting view variables
+        view.setLocale(currentLocale);
+        view.setMyProperty(appProperty.retrieveProperties("View." + view.getViewType()));
+
         while(true){
-            port = view.selectPort(Connection.availablePorts());
+            List<String> portList = Connection.availablePorts();
+            if(!portList.contains(defaultPort))
+                defaultPort = null;
+            port = view.selectPort(portList, defaultPort);
             if(port == null){
                 connection = null;
                 break;

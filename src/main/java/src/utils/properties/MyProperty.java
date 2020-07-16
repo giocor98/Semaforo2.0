@@ -201,7 +201,24 @@ public class MyProperty {
      * @param myPropertyName (the searched <code>MyProperty</code>'s name).
      * @return (the searched <code>MyProperty</code> or null).
      */
-    private MyProperty retrieveProperties(String myPropertyName){
+    public MyProperty retrieveProperties(String myPropertyName){
+
+        if(myPropertyName.contains(".")){
+            String[] arrString = myPropertyName.replace(".", " ").split(" ");
+            MyProperty ret = this.retrieveProperties(arrString[0]);
+            return ret.retrieveProperties(String.join(".", Arrays.asList(arrString).subList(1, arrString.length)));
+        }
+
+        if(this.properties == null){
+            try {
+                this.load();
+            } catch (PropertyLoadException e) {
+                logger.error(e);
+                logger.error("Cannot load " + this.name);
+                return null;
+            }
+        }
+
         if(!this.ref.contains(myPropertyName)){
             logger.debug("MyProperty " + this.name + " doesn't have access to " + myPropertyName);
             return null;
