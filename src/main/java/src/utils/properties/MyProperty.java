@@ -201,7 +201,24 @@ public class MyProperty {
      * @param myPropertyName (the searched <code>MyProperty</code>'s name).
      * @return (the searched <code>MyProperty</code> or null).
      */
-    private MyProperty retrieveProperties(String myPropertyName){
+    public MyProperty retrieveProperties(String myPropertyName){
+
+        if(myPropertyName.contains(".")){
+            String[] arrString = myPropertyName.replace(".", " ").split(" ");
+            MyProperty ret = this.retrieveProperties(arrString[0]);
+            return ret.retrieveProperties(String.join(".", Arrays.asList(arrString).subList(1, arrString.length)));
+        }
+
+        if(this.properties == null){
+            try {
+                this.load();
+            } catch (PropertyLoadException e) {
+                logger.error(e);
+                logger.error("Cannot load " + this.name);
+                return null;
+            }
+        }
+
         if(!this.ref.contains(myPropertyName)){
             logger.debug("MyProperty " + this.name + " doesn't have access to " + myPropertyName);
             return null;
@@ -237,9 +254,7 @@ public class MyProperty {
                 return this.getProperty(String.join(".", keyList.subList(1, keyList.size())));
             }else{
                 try{
-                    logger.trace(this.name + "inoltring request to " + keyList.get(0));
-                    logger.trace("asked: " + key);
-                    logger.trace("asking " + String.join(".", keyList.subList(1, keyList.size())));
+                    logger.trace(this.name + " forwarding request to " + keyList.get(0) + " : " + key);
                     return this.retrieveProperties(keyList.get(0)).getProperty(String.join(".", keyList.subList(1, keyList.size())));
                 }catch (NullPointerException e){
                     logger.debug(this.name + " has not found anything with " + key);
