@@ -224,7 +224,6 @@ public class MyProperty {
             return null;
         }
         synchronized (instancesMap){
-            logger.debug("Retrieving " + myPropertyName + " from " + this.name);
             return instancesMap.get(myPropertyName);
         }
     }
@@ -254,7 +253,6 @@ public class MyProperty {
                 return this.getProperty(String.join(".", keyList.subList(1, keyList.size())));
             }else{
                 try{
-                    logger.trace(this.name + " forwarding request to " + keyList.get(0) + " : " + key);
                     return this.retrieveProperties(keyList.get(0)).getProperty(String.join(".", keyList.subList(1, keyList.size())));
                 }catch (NullPointerException e){
                     logger.debug(this.name + " has not found anything with " + key);
@@ -262,6 +260,12 @@ public class MyProperty {
                 }
             }
         }
+        //Attention: this will lead to infinite cycles!!
+        if(ret.startsWith("$")){
+            logger.debug(key + " produced: " + ret + " now searching: " + ret.substring(1));
+            return this.getProperty(ret.substring(1));
+        }
+
         return ret;
     }
 
@@ -334,6 +338,21 @@ public class MyProperty {
             ret.load(input);
         }catch (IOException e){
             throw new PropertyLoadException();
+        }
+        return ret;
+    }
+
+    public String safeGetProperty(String request){
+        String ret;
+        try {
+            ret = this.getProperty(request);
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
+            logger.warn(e);
+            ret = null;
+        }
+        if(ret==null){
+            logger.warn(this.name + "Has tried " + request + " and hasn't found anything");
+            return "";
         }
         return ret;
     }

@@ -8,7 +8,10 @@ import java.util.Locale;
 /**
  * Interface working as a facade for the src.view package.
  */
-public interface View {
+public abstract class View {
+
+    protected MyProperty myProperty;
+    protected Locale currentLocale;
 
     /**
      * <p>
@@ -24,7 +27,7 @@ public interface View {
      * @param portList (the list of port available to the choice).
      * @return (the user selected port).
      */
-    public String selectPort(List<String> portList, String defaultPort);
+    public abstract String selectPort(List<String> portList, String defaultPort);
 
     /**
      * <p>
@@ -33,7 +36,7 @@ public interface View {
      *
      * @param errorMessage (the error message to be displayed).
      */
-    public void error(String errorMessage);
+    public abstract void error(String errorMessage);
 
     /**
      * <p>
@@ -42,7 +45,9 @@ public interface View {
      *
      * @param locale (the <code>Locale</code> to be set as current).
      */
-    public void setLocale(Locale locale);
+    public void setLocale(Locale locale){
+        this.currentLocale = locale;
+    }
 
     /**
      * <p>
@@ -50,7 +55,9 @@ public interface View {
      * </p>
      * @param myProperty (this' <code>MyProperty</code>).
      */
-    public void setMyProperty(MyProperty myProperty);
+    public void setMyProperty(MyProperty myProperty){
+        this.myProperty = myProperty;
+    }
 
     /**
      * <p>
@@ -60,5 +67,5 @@ public interface View {
      *
      * @return (a <code>String</code> representation of this'type).
      */
-    public String getViewType();
+    public abstract String getViewType();
 }
