@@ -34,8 +34,23 @@ public class CLI extends View {
     }
 
     @Override
-    public void error(String errorMessage) {
-        System.err.println(errorMessage);
+    public void error(String errorMessageName, String[] payload) {
+        //Retrieving the file for printing messages
+        ResourceBundle messages;
+        MessageFormat formatter = new MessageFormat("");
+        formatter.setLocale(currentLocale);
+        try {
+            messages = ResourceBundle.getBundle(myProperty.getProperty("bundle.error"), currentLocale, this.getClass().getClassLoader());
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
+            logger.fatal("Cannot read the bundle.file Property");
+            MainApp.end();
+            return;
+        }
+
+        formatter.applyPattern(messages.getString(errorMessageName));
+
+        System.err.println(formatter.format(payload));
+
     }
 
     /**

@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * Class to manage the program life
  */
-public class MainApp {
+public class MainApp implements Runnable {
 
     /**
      * <p>
@@ -112,6 +112,7 @@ public class MainApp {
      */
     public static void main(String[] args) {
         //######INITIALISATION
+        MainApp mainApp;
 
         //##log notification
         logger.trace("App started");
@@ -307,18 +308,12 @@ public class MainApp {
         logger.trace("Argument parsed: " + arguments.toString());
 
         //######BUILDING THE MAIN APP
-        builder(view, currentLocale, appProperty, defaultPort);
+        mainApp = builder(view, currentLocale, appProperty, defaultPort);
 
         //######EXECUTING MAIN APP
 
         //foo instruction
-        try {
-            System.out.println("Version: " +
-                    appProperty.getProperty("App.version")
-                    );
-        } catch (PropertyLoadException | NotSuchPropertyException e) {
-            e.printStackTrace();
-        }
+        mainApp.run();
 
         //######FINISHING
         end();
@@ -356,6 +351,8 @@ public class MainApp {
         view.setLocale(currentLocale);
         view.setMyProperty(appProperty.retrieveProperties("View." + view.getViewType()));
 
+        ThreadPool threadPool = new FixedSafeThreadPool();
+
         while(true){
             List<String> portList = Connection.availablePorts();
             if(!portList.contains(defaultPort))
@@ -368,22 +365,29 @@ public class MainApp {
             if(port.equals(""))
                 continue;
             try{
-                connection = new Connection(port);
+                connection = new Connection(port, threadPool);
                 break;
-            }catch (PortNotFoundException | PortNotOpenException e){
-                view.error(e.getMessage());
+            }catch (PortNotFoundException e){
+                view.error(e.getMessage(), e.getPayload());
+            }catch (PortNotOpenException e){
+                view.error(e.getMessage(), e.getPayload());
             }
         }
 
-        return new MainApp(view, connection, currentLocale, appProperty);
+        return new MainApp(view, connection, currentLocale, appProperty, threadPool);
     }
 
-    protected MainApp(View view, Connection connection, Locale currentLocale, MyProperty appProperty){
+    protected MainApp(View view, Connection connection, Locale currentLocale, MyProperty appProperty, ThreadPool threadPool){
         this.view = view;
         this.connection = connection;
         this.currentLocale = currentLocale;
-        this.threadPool = new FixedSafeThreadPool();
+        this.threadPool = threadPool;
 
         this.appProperty = appProperty;
+    }
+
+    @Override
+    public void run() {
+
     }
 }

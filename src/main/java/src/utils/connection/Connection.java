@@ -7,6 +7,7 @@ import src.utils.connection.postMan.PostMan;
 import src.utils.connection.serial.SerialManager;
 import src.utils.exception.PortNotFoundException;
 import src.utils.exception.PortNotOpenException;
+import src.utils.threadPool.ThreadPool;
 
 import java.util.List;
 
@@ -43,31 +44,31 @@ public class Connection {
         return SerialManager.availablePorts();
     }
 
-    /**
-     * <p>
-     * Factory method not throwing Exceptions.
-     * </p><p>
-     * It'll return either or the newly created <code>Connection</code> or
-     * <code>null</code> if the <code>Connection</code> cannot be created.
-     * </p><p>
-     * It must be checked if it returns <code>null</code>.
-     * </p><p>
-     * As parameter it takes the <code>String</code> name of the port to be
-     * opened.
-     * </p>
-     *
-     * @param portName (the <code>String</code> name of the port to be opened).
-     * @return         (the newly created <code>Connection</code> or <code>null</code>
-     *                 if any problem occurs).
-     * @see #Connection(String)
-     */
-    public static Connection build(String portName){
-        try {
-            return new Connection(portName);
-        } catch (PortNotOpenException | PortNotFoundException e) {
-            return null;
-        }
-    }
+//    /**
+//     * <p>
+//     * Factory method not throwing Exceptions.
+//     * </p><p>
+//     * It'll return either or the newly created <code>Connection</code> or
+//     * <code>null</code> if the <code>Connection</code> cannot be created.
+//     * </p><p>
+//     * It must be checked if it returns <code>null</code>.
+//     * </p><p>
+//     * As parameter it takes the <code>String</code> name of the port to be
+//     * opened.
+//     * </p>
+//     *
+//     * @param portName (the <code>String</code> name of the port to be opened).
+//     * @return         (the newly created <code>Connection</code> or <code>null</code>
+//     *                 if any problem occurs).
+//     * @see #Connection(String)
+//     */
+//    public static Connection build(String portName, ThreadPool threadPool){
+//        try {
+//            return new Connection(portName, threadPool);
+//        } catch (PortNotOpenException | PortNotFoundException e) {
+//            return null;
+//        }
+//    }
 
     /**
      * Static method to close all the <code>SerialManager</code> opened.
@@ -95,8 +96,8 @@ public class Connection {
      *                                be accessed).
      * @see PostMan#PostMan(String, src.utils.threadPool.ThreadPool)
      */
-    public Connection(String portName) throws PortNotOpenException, PortNotFoundException {
-        postMan = new PostMan(portName, app.getThreadPool());
+    public Connection(String portName, ThreadPool threadPool) throws PortNotOpenException, PortNotFoundException {
+        postMan = new PostMan(portName, threadPool);
     }
 
     /**

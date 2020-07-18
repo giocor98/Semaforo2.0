@@ -5,12 +5,32 @@ package src.utils.exception;
  */
 public class PortNotFoundException extends Exception {
 
-    /**
-     * Constructor giving a String description of the cause of the problem.
-     *
-     * @param s (a String describing the problem).
-     */
-    public PortNotFoundException(String s){
-        super(s);
+    private final String[] objects;
+
+    private final String message;
+
+    public PortNotFoundException(String message, String[] objects){
+        super(message);
+        this.message = message;
+        this.objects = objects;
+    }
+
+//    /**
+//     * Constructor giving a String description of the cause of the problem.
+//     *
+//     * @param s (a String describing the problem).
+//     */
+//    public PortNotFoundException(String s){
+//        super(s);
+//        message = s;
+//        objects = null;
+//    }
+
+    public String getMessage(){
+        return message;
+    }
+
+    public String[] getPayload(){
+        return objects;
     }
 }
