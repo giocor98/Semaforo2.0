@@ -1,8 +1,11 @@
 package src.view.gui;
 
+import com.fazecast.jSerialComm.SerialPort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import src.app.MainApp;
+import src.utils.exception.NotSuchPropertyException;
+import src.utils.exception.PropertyLoadException;
 import src.utils.properties.MyProperty;
 import src.view.View;
 import src.view.gui.specificClass.GUISelectPort;
@@ -10,8 +13,10 @@ import src.view.gui.specificClass.GUISelectPort;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 // TODO: 15/07/20 comment it 
 
@@ -29,7 +34,24 @@ public class GUI extends View {
     }
 
     @Override
-    public void error(String errorMessage) {}
+    public void error(String errorMessageName, String[] payload) {
+
+        //Retrieving the file for printing messages
+        ResourceBundle messages;
+        MessageFormat formatter = new MessageFormat("");
+        formatter.setLocale(currentLocale);
+        try {
+            messages = ResourceBundle.getBundle(myProperty.getProperty("bundle.error"), currentLocale, this.getClass().getClassLoader());
+        } catch (PropertyLoadException | NotSuchPropertyException e) {
+            logger.fatal("Cannot read the bundle.file Property");
+            MainApp.end();
+            return;
+        }
+
+        formatter.applyPattern(messages.getString(errorMessageName));
+        JOptionPane.showMessageDialog(null, formatter.format(payload), errorMessageName, JOptionPane.ERROR_MESSAGE);
+
+    }
 
     @Override
     public String getViewType() {

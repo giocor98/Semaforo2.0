@@ -34,9 +34,9 @@ public abstract class View {
      * Method called to display an error message to the user.
      * </p>
      *
-     * @param errorMessage (the error message to be displayed).
+     * @param errorMessageName (the error message to be displayed).
      */
-    public abstract void error(String errorMessage);
+    public abstract void error(String errorMessageName, String[] payload);
 
     /**
      * <p>

@@ -114,7 +114,7 @@ public class SerialManager {
         //If the portName is not a valid name
         if (port==null){
             //throws PortNotFoundException
-            throw new PortNotFoundException("SerialData constructor: port not found");
+            throw new PortNotFoundException("portNotFound", new String[]{portName});
         }
 
         //Sets the baudrate
@@ -125,7 +125,7 @@ public class SerialManager {
             //Sets port to null... It should be useless, BTW...
             port=null;
             //throws PortNotOpenException
-            throw new PortNotOpenException("SerialData constructor: cannot open the port");
+            throw new PortNotOpenException("closePortConstructor", new String[]{portName});
         }
 
         //if listener != null adds the listener to the port.
@@ -213,7 +213,7 @@ public class SerialManager {
      */
     void sendMsg(String str) throws PortNotOpenException {
         if(port == null)
-            throw new PortNotOpenException("SerialData.sendMsg : stai cercando di inviare dati su di una porta chiusa");
+            throw new PortNotOpenException("closePortSending", new String[]{});
         byte[] b = str.getBytes();
         sendBytes(b);
     }
@@ -244,7 +244,7 @@ public class SerialManager {
      * @see PortNotOpenException
      */
     void addListener(SerialPortDataListener serialPortDataListener) throws PortNotOpenException{
-        if(port==null) throw new PortNotOpenException("SerialManager.addListener : Trying to add a listener to a closed port");
+        if(port==null) throw new PortNotOpenException("closePortAttachment", new String[]{});
         if(serialPortDataListener!=null) port.addDataListener(serialPortDataListener);
     }
 
