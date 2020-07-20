@@ -9,6 +9,7 @@ import src.utils.exception.PropertyLoadException;
 import src.utils.properties.MyProperty;
 import src.view.View;
 import src.view.gui.specificClass.GUISelectPort;
+import src.view.gui.specificClass.GUIWaiting;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -23,6 +24,8 @@ import java.util.ResourceBundle;
 public class GUI extends View {
 
     private static final Logger logger = LogManager.getLogger("view");
+
+    private JFrame frame;
 
     @Override
     public String selectPort(List<String> portList, String defaultPort) {
@@ -50,6 +53,33 @@ public class GUI extends View {
 
         formatter.applyPattern(messages.getString(errorMessageName));
         JOptionPane.showMessageDialog(null, formatter.format(payload), errorMessageName, JOptionPane.ERROR_MESSAGE);
+
+    }
+
+    @Override
+    public void setWaiting(String status, int percentage) {
+        setWaiting(status);
+        setWaiting(percentage);
+    }
+
+    @Override
+    public void setWaiting(String status) {
+        GUIWaiting.getInstance().setMessage(status);
+    }
+
+    @Override
+    public void setWaiting(int percentage) {
+        GUIWaiting.getInstance().setPercentage(percentage);
+    }
+
+    @Override
+    public void waiting() {
+        this.frame = GUIWaiting.build(currentLocale, myProperty.retrieveProperties("GUIWaiting"));
+        GUIWaiting.getInstance().waiting();
+    }
+
+    @Override
+    public void init() {
 
     }
 
