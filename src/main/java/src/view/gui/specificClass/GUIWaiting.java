@@ -98,4 +98,8 @@ public class GUIWaiting extends GUISpecificClass {
         message.setText(messages.getString(myProperty.safeGetProperty(messageName)));
     }
 
+    public static void clear(){
+        instance = null;
+    }
+
 }

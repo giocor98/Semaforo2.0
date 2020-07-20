@@ -91,4 +91,9 @@ public class CLI extends View {
     public String getViewType() {
         return "CLI";
     }
+
+    @Override
+    public void waitingClear() {
+        CLIWaiting.clear();
+    }
 }

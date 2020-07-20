@@ -88,6 +88,11 @@ public class GUI extends View {
         return "GUI";
     }
 
+    @Override
+    public void waitingClear() {
+        GUIWaiting.clear();
+    }
+
     public static JFrame buidFrame(String title, int exitOnClose){
         JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(exitOnClose);

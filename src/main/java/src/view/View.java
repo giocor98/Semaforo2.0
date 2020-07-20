@@ -78,4 +78,6 @@ public abstract class View {
      * @return (a <code>String</code> representation of this'type).
      */
     public abstract String getViewType();
+
+    public abstract void waitingClear();
 }
