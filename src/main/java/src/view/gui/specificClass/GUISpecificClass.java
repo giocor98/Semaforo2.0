@@ -2,6 +2,7 @@ package src.view.gui.specificClass;
 
 import src.utils.properties.MyProperty;
 
+import javax.swing.*;
 import java.util.Locale;
 
 public abstract class GUISpecificClass {
@@ -9,6 +10,8 @@ public abstract class GUISpecificClass {
     protected Locale currentLocale;
 
     protected MyProperty myProperty;
+
+    protected JFrame frame;
 
     /**
      * <p>
@@ -29,5 +32,9 @@ public abstract class GUISpecificClass {
      */
     public void setMyProperty(MyProperty myProperty){
         this.myProperty = myProperty;
+    }
+
+    public void setFrame(JFrame frame){
+        this.frame = frame;
     }
 }

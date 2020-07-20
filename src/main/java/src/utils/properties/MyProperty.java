@@ -98,7 +98,7 @@ public class MyProperty {
                 logger.error("Cannot create " + name + " MyProperty.");
                 return null;
             }
-            logger.trace("Built MyProperty: " + name);
+            logger.debug("Built MyProperty: " + name);
             synchronized (instancesMap) {
                 instancesMap.put(name, ret);
             }
@@ -135,7 +135,7 @@ public class MyProperty {
      * @throws PropertyLoadException
      */
     private void load() throws PropertyLoadException {
-        logger.trace("Loading: " + this.name);
+        logger.debug("Loading: " + this.name);
         //Loading properties
 
         // TODO: 15/07/20 check also other fileName 
@@ -154,7 +154,7 @@ public class MyProperty {
             retString = "";
         ref.addAll(Arrays.asList(retString.split(" ")));
         this.buildReferencies(false);
-        logger.trace("Loaded: " + this.name);
+        logger.debug("Loaded: " + this.name);
     }
 
     /**
@@ -170,7 +170,7 @@ public class MyProperty {
     public static MyProperty init(){
         MyProperty app;
 
-        logger.trace("Initialisation");
+        logger.debug("Initialisation");
 
         try {
             app = new MyProperty("App", "config/AppConfig.properties", null, null);
@@ -220,7 +220,7 @@ public class MyProperty {
         }
 
         if(!this.ref.contains(myPropertyName)){
-            logger.debug("MyProperty " + this.name + " doesn't have access to " + myPropertyName);
+            logger.warn("MyProperty " + this.name + " doesn't have access to " + myPropertyName);
             return null;
         }
         synchronized (instancesMap){
@@ -255,14 +255,14 @@ public class MyProperty {
                 try{
                     return this.retrieveProperties(keyList.get(0)).getProperty(String.join(".", keyList.subList(1, keyList.size())));
                 }catch (NullPointerException e){
-                    logger.debug(this.name + " has not found anything with " + key);
+                    logger.trace(this.name + " has not found anything with " + key);
                     throw new NotSuchPropertyException();
                 }
             }
         }
         //Attention: this will lead to infinite cycles!!
         if(ret.startsWith("$")){
-            logger.debug(key + " produced: " + ret + " now searching: " + ret.substring(1));
+            logger.trace(key + " produced: " + ret + " now searching: " + ret.substring(1));
             return this.getProperty(ret.substring(1));
         }
 

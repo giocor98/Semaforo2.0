@@ -38,6 +38,16 @@ public abstract class View {
      */
     public abstract void error(String errorMessageName, String[] payload);
 
+    public abstract void setWaiting(String status, int percentage);
+
+    public abstract void setWaiting(String status);
+
+    public abstract void setWaiting(int percentage);
+
+    public abstract void waiting();
+
+    public abstract void init();
+
     /**
      * <p>
      * Method to set the current <code>Locale</code>

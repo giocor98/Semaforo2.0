@@ -8,6 +8,7 @@ import src.utils.exception.PropertyLoadException;
 import src.utils.properties.MyProperty;
 import src.view.View;
 import src.view.cli.specificClass.CLISelectPort;
+import src.view.cli.specificClass.CLIWaiting;
 
 import java.text.MessageFormat;
 import java.util.*;
@@ -22,6 +23,9 @@ import java.util.*;
 public class CLI extends View {
 
     private static final Logger logger = LogManager.getLogger("view");
+
+    @Override
+    public void init() {}
 
     @Override
     public String selectPort(List<String> portList, String defaultPort) {
@@ -52,6 +56,28 @@ public class CLI extends View {
         System.err.println(formatter.format(payload));
 
     }
+
+    @Override
+    public void setWaiting(String status, int percentage) {
+        CLIWaiting.getInstance().setWaiting(status, percentage);
+    }
+
+    @Override
+    public void setWaiting(String status) {
+        CLIWaiting.getInstance().setWaiting(status);
+    }
+
+    @Override
+    public void setWaiting(int percentage) {
+        CLIWaiting.getInstance().setWaiting(percentage);
+    }
+
+    @Override
+    public void waiting() {
+        CLIWaiting.waiting(currentLocale, myProperty.retrieveProperties("CLIWaiting"));
+    }
+
+
 
     /**
      * <p>

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.LoggerConfig;
+import src.controller.Status;
 import src.utils.connection.Connection;
 import src.utils.exception.NotSuchPropertyException;
 import src.utils.exception.PortNotFoundException;
@@ -92,6 +93,8 @@ public class MainApp implements Runnable {
 
     // TODO: 15/07/20 comment it
     private MyProperty appProperty;
+
+    private Status status;
 
     /**
      * <p>
@@ -358,6 +361,7 @@ public class MainApp implements Runnable {
             if(!portList.contains(defaultPort))
                 defaultPort = null;
             port = view.selectPort(portList, defaultPort);
+            defaultPort = null;
             if(port == null){
                 connection = null;
                 break;
@@ -389,5 +393,59 @@ public class MainApp implements Runnable {
     @Override
     public void run() {
 
+        this.status = Status.WAITING;
+
+        while(this.status!=Status.CLOSE&&this.status!=null){
+            try {
+                this.status = this.status.exec(this);
+            }catch (Exception e){
+                logger.fatal(e);
+                logger.fatal ("Exception thrown when executing the status");
+                end();
+            }
+        }
+
+        if(this.status==null){
+            logger.fatal("NULL status found");
+        }
+
+        end();
+
+        //initialisation();
+
+    }
+
+    public View getView(){
+        return view;
+    }
+
+    public Connection getConnection(){
+        return connection;
+    }
+
+    private void initialisation(){
+
+        //####LOADING
+        view.init();
+
+        view.waiting();
+
+        view.setWaiting("Initialisation", 0);
+
+        //##Load connection
+        view.setWaiting("portRetrieving", 10);
+
+        if(connection == null){
+            Object lock = new Object();
+            for(int i=0; i<4; i++){
+                synchronized (lock) {
+                    try {
+                        lock.wait(1000);
+                    } catch (InterruptedException ignore) {
+                    }
+                }
+                view.setWaiting((100/4)*(i+1));
+            }
+        }
     }
 }

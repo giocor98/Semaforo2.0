@@ -36,7 +36,7 @@ public class CLISelectPort extends CLISpecificClass {
         if (defaultPort != null) {
 
             String answ = "";
-            while(!answ.contains(messages.getString(myProperty.safeGetProperty("YesChar"))) && !answ.contains((messages.getString(myProperty.safeGetProperty("noChar"))))){
+            while(!answ.contains(messages.getString(myProperty.safeGetProperty("yesChar"))) && !answ.contains((messages.getString(myProperty.safeGetProperty("noChar"))))){
                 formatter.applyPattern(messages.getString(myProperty.safeGetProperty("selectPort")));
                 System.out.println(formatter.format(new String[]{defaultPort}));
 
