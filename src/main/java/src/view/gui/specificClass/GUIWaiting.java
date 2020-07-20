@@ -99,6 +99,7 @@ public class GUIWaiting extends GUISpecificClass {
     }
 
     public static void clear(){
+        instance.frame.dispose();
         instance = null;
     }
 
