@@ -3,6 +3,7 @@ package src.controller;
 import src.app.MainApp;
 import src.controller.specificStatus.HomePageStatus;
 import src.controller.specificStatus.SpecificStatus;
+import src.controller.specificStatus.StartRaceStatus;
 import src.controller.specificStatus.WaitingStatus;
 import src.view.View;
 
@@ -10,7 +11,9 @@ public enum Status {
     WAITING(new WaitingStatus()),
     HOME_PAGE(new HomePageStatus()),
     SETTINGS(null),
-    START_RACE(null),
+    START_RACE(new StartRaceStatus()),
+    RACE_SEM(null),
+    END_SEM(null),
     START(null),
     CLOSE(null),
     NONE(null);

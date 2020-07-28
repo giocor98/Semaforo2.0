@@ -10,8 +10,10 @@ import src.utils.exception.NotSuchPropertyException;
 import src.utils.exception.PropertyLoadException;
 import src.utils.properties.MyProperty;
 import src.view.View;
+import src.view.cli.specificClass.CLISelectRace;
 import src.view.gui.specificClass.GUIHomePage;
 import src.view.gui.specificClass.GUISelectPort;
+import src.view.gui.specificClass.GUISelectRace;
 import src.view.gui.specificClass.GUIWaiting;
 
 import javax.swing.*;
@@ -85,6 +87,9 @@ public class GUI extends View {
     public Status homePage(Connection connection) {
         return new GUIHomePage(currentLocale, myProperty.retrieveProperties("GUIHomePage"), connection).show();
     }
+
+    @Override
+    public Status selectRaceType() { return new GUISelectRace(currentLocale, myProperty.retrieveProperties(("GUISelectRaceType"))).show(); }
 
     @Override
     public void init() {

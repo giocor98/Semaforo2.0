@@ -64,11 +64,11 @@ public class CLIHomePage extends CLISpecificClass {
             return Status.SETTINGS;
         }
         if(sel == 1){
-            if(myConnection!=null)
+            if(myConnection!=null || "true".equals(myProperty.safeGetProperty("CLI.View.App.blockOnClosedConnection")))
                 return Status.START_RACE;
         }
         if(sel == 2){
-            if(myConnection!=null)
+            if(myConnection!=null || "true".equals(myProperty.safeGetProperty("CLI.View.App.blockOnClosedConnection")))
                 return Status.START;
         }
         if(sel == 3){
