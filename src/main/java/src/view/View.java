@@ -1,5 +1,7 @@
 package src.view;
 
+import src.controller.Status;
+import src.utils.connection.Connection;
 import src.utils.properties.MyProperty;
 
 import java.util.List;
@@ -46,6 +48,8 @@ public abstract class View {
 
     public abstract void waiting();
 
+    public abstract Status homePage(Connection connection);
+
     public abstract void init();
 
     /**
@@ -78,4 +82,8 @@ public abstract class View {
      * @return (a <code>String</code> representation of this'type).
      */
     public abstract String getViewType();
+
+    public abstract void waitingClear();
+
+
 }

@@ -77,4 +77,8 @@ public class CLIWaiting extends CLISpecificClass {
         System.out.println(formatter.format(new String[]{tmp, this.percentage.toString()}));
     }
 
+    public static void clear(){
+        instance = null;
+    }
+
 }

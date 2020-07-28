@@ -35,6 +35,7 @@ public class WaitingStatus implements SpecificStatus {
             }
         }
 
+        view.waitingClear();
 
         return Status.HOME_PAGE;
     }

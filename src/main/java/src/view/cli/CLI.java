@@ -3,10 +3,13 @@ package src.view.cli;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import src.app.MainApp;
+import src.controller.Status;
+import src.utils.connection.Connection;
 import src.utils.exception.NotSuchPropertyException;
 import src.utils.exception.PropertyLoadException;
 import src.utils.properties.MyProperty;
 import src.view.View;
+import src.view.cli.specificClass.CLIHomePage;
 import src.view.cli.specificClass.CLISelectPort;
 import src.view.cli.specificClass.CLIWaiting;
 
@@ -77,6 +80,10 @@ public class CLI extends View {
         CLIWaiting.waiting(currentLocale, myProperty.retrieveProperties("CLIWaiting"));
     }
 
+    @Override
+    public Status homePage(Connection connection) {
+        return new CLIHomePage(currentLocale, myProperty.retrieveProperties("CLIHomePage"), connection).show();
+    }
 
 
     /**
@@ -90,5 +97,10 @@ public class CLI extends View {
     @Override
     public String getViewType() {
         return "CLI";
+    }
+
+    @Override
+    public void waitingClear() {
+        CLIWaiting.clear();
     }
 }

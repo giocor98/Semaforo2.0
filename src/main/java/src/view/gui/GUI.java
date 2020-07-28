@@ -4,10 +4,13 @@ import com.fazecast.jSerialComm.SerialPort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import src.app.MainApp;
+import src.controller.Status;
+import src.utils.connection.Connection;
 import src.utils.exception.NotSuchPropertyException;
 import src.utils.exception.PropertyLoadException;
 import src.utils.properties.MyProperty;
 import src.view.View;
+import src.view.gui.specificClass.GUIHomePage;
 import src.view.gui.specificClass.GUISelectPort;
 import src.view.gui.specificClass.GUIWaiting;
 
@@ -79,6 +82,11 @@ public class GUI extends View {
     }
 
     @Override
+    public Status homePage(Connection connection) {
+        return new GUIHomePage(currentLocale, myProperty.retrieveProperties("GUIHomePage"), connection).show();
+    }
+
+    @Override
     public void init() {
 
     }
@@ -86,6 +94,11 @@ public class GUI extends View {
     @Override
     public String getViewType() {
         return "GUI";
+    }
+
+    @Override
+    public void waitingClear() {
+        GUIWaiting.clear();
     }
 
     public static JFrame buidFrame(String title, int exitOnClose){
