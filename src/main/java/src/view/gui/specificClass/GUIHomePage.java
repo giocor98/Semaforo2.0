@@ -72,7 +72,7 @@ public class GUIHomePage extends GUISpecificClass {
             synchronized (lock){
                 if(!done.get()){
                     done.set(true);
-                    if(myConnection!=null)
+                    if(myConnection!=null || "true".equals(myProperty.safeGetProperty("GUI.View.App.blockOnClosedConnection")))
                         ret.set(Status.START_RACE);
                     else
                         ret.set(Status.HOME_PAGE);
@@ -87,7 +87,7 @@ public class GUIHomePage extends GUISpecificClass {
             synchronized (lock){
                 if(!done.get()){
                     done.set(true);
-                    if(myConnection!=null)
+                    if(myConnection!=null || "true".equals(myProperty.safeGetProperty("GUI.View.App.blockOnClosedConnection")))
                         ret.set(Status.START);
                     else
                         ret.set(Status.HOME_PAGE);

@@ -50,6 +50,8 @@ public abstract class View {
 
     public abstract Status homePage(Connection connection);
 
+    public abstract Status selectRaceType();
+
     public abstract void init();
 
     /**

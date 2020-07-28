@@ -11,6 +11,7 @@ import src.utils.properties.MyProperty;
 import src.view.View;
 import src.view.cli.specificClass.CLIHomePage;
 import src.view.cli.specificClass.CLISelectPort;
+import src.view.cli.specificClass.CLISelectRace;
 import src.view.cli.specificClass.CLIWaiting;
 
 import java.text.MessageFormat;
@@ -84,6 +85,9 @@ public class CLI extends View {
     public Status homePage(Connection connection) {
         return new CLIHomePage(currentLocale, myProperty.retrieveProperties("CLIHomePage"), connection).show();
     }
+
+    @Override
+    public Status selectRaceType() { return new CLISelectRace(currentLocale, myProperty.retrieveProperties(("CLISelectRaceType"))).show(); }
 
 
     /**
